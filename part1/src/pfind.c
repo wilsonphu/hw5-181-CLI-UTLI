@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
 			"Usage: ./pfind -d <directory> -p <permissions string> [-h]\n");
 		return EXIT_SUCCESS;
 	    case '?':
-		fprintf(stderr, "Error: Invalid option '-%c'\n", optopt);	
+		fprintf(stderr, "Error: Invalid option '-%c' received.\n", optopt);	
 
 
 	    default:
