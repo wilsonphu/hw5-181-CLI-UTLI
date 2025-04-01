@@ -7,7 +7,8 @@
 #include <dirent.h>     
 #include <sys/stat.h>  
 #include <unistd.h>  
-static bool str_check (const char *perm) {
+
+bool str_check (const char *perm) {
     for (int i = 0; i < 9; i++) {
         switch (perm[i]) {
             case 'r':
@@ -105,7 +106,13 @@ int main(int argc, char **argv) {
         }
     }
 
-    if (perm == NULL || strlen(perm) != 9) { return EXIT_FAILURE; } 
+    if (perm == NULL || strlen(perm) != 9) { return EXIT_FAILURE; }
+     
+    if (str_check(perm) == false) { 
+        fprintf(stderr, "Error: Permissions string '%s' is invalid.", perm);
+ 	return EXIT_FAILURE;
+    } 
+
     recursive_search(dir,perm);
     // will check if return true or false
     // if false print to stderr and return EXIT FAILURE
