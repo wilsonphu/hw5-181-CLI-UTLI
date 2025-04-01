@@ -39,8 +39,8 @@ void recursive_search(const char *dir, const char *perm_string){
 	struct stat statbuf;
 	char path[PATH_MAX];
 
-	if ((dirp = opendir(dir) == NULL){
-			fprintf(stderr, "Error: Cannot open directory 's%'. %s.\n", dir, strerror(errno));
+	if ((dirp = opendir(dir)) == NULL){
+			fprintf(stderr, "Error: Cannot open directory '%s'. %s.\n", dir, strerror(errno));
 			return;
 	}
 
@@ -57,7 +57,7 @@ void recursive_search(const char *dir, const char *perm_string){
 		 continue;
 	
 	if (S_ISDIR(statbuf.st_mode)) {
-        	traverse_directory(path, perm_string);
+        	recursive_search(path, perm_string);
         }
 
         // if it's a regular file, check permissions
