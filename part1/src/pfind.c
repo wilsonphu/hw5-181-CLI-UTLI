@@ -96,11 +96,11 @@ int main(int argc, char **argv) {
     while ((c = getopt(argc, argv, "d:p:h")) != -1) {
         switch (c) {
 	    case 'd':
- 		dflag = 0;
+ 		dflag = 1;
 		dir = optarg;
 		break;
 	    case 'p':
-		pflag = 0;
+		pflag = 1;
 		perm = optarg;
 		break;
 	    case 'h':
@@ -108,7 +108,7 @@ int main(int argc, char **argv) {
 			"Usage: ./pfind -d <directory> -p <permissions string> [-h]\n");
 		return EXIT_SUCCESS;
 	    case '?':
-		fprintf(stderr, "Error: Invalid option '-%c' received.\n", optopt);	
+		fprintf(stderr, "Error: Unknown option '-%c' received.\n", optopt);	
 
 	    default:
 		return EXIT_FAILURE;
