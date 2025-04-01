@@ -39,17 +39,6 @@ void recursive_search(const char *dir, const char *perm_string){
 	struct stat statbuf;
 	char path[PATH_MAX];
 	
-	//retrive file info
-	if (lstat(dir, &statbuf) < 0) {
-		fprintf(stderr, "Error: Cannot stat '%s'. %s.\n", dir, strerror(errno));
-                return;
-                }
-
-        if (!S_ISDIR(statbuf.st_mode)) {
-		//recursive_search(path, perm_string);
-		fprintf(stderr, "Error: '%s' is not a directory.\n", dir);	
-	}
-
 	dirp = opendir(dir);
 	
 	if (dirp == NULL){
@@ -105,6 +94,7 @@ int main(int argc, char **argv) {
 
     char *dir = NULL;
     char *perm = NULL;
+    struct stat statbuf;
 
     while ((c = getopt(argc, argv, "d:p:h")) != -1) {
         switch (c) {
@@ -129,11 +119,11 @@ int main(int argc, char **argv) {
     }
     
     if ((dflag == 0) || (pflag == 0)) { 
-        if ((dflag == 1) && (pflag == 0)) {
+        if (dflag == 0) {
 	    fprintf(stderr, "Error: Required argument -p <permissions string> not found.\n");
 	    return EXIT_FAILURE;
 	}
-        if ((dflag == 0) && (pflag == 1)) {
+        if (pflag == 0) {
   	    fprintf(stderr, "Error: Required argument -d <directory> not found.\n");
 	    return EXIT_FAILURE;
         } 
@@ -141,8 +131,18 @@ int main(int argc, char **argv) {
 
     if (perm == NULL || strlen(perm) != 9) { return EXIT_FAILURE; }
      
+    //retrive file info
+    if (lstat(dir, &statbuf) < 0) {
+        fprintf(stderr, "Error: Cannot stat '%s'. %s.\n", dir, strerror(errno));
+        return EXIT_FAILURE;
+    }
+    if (!S_ISDIR(statbuf.st_mode)) {
+        fprintf(stderr, "Error: '%s' is not a directory.\n", dir);
+        return EXIT_FAILURE;
+    }
+
     if (str_check(perm) == false) { 
-        fprintf(stderr, "Error: Permissions string '%s' is invalid.", perm);
+        fprintf(stderr, "Error: Permissions string '%s' is invalid.\n", perm);
  	return EXIT_FAILURE;
     } 
 
