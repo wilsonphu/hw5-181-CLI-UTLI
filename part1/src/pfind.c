@@ -8,6 +8,7 @@
 #include <sys/stat.h>  
 #include <unistd.h>  
 
+
 bool str_check (const char *perm) {
     for (int i = 0; i < 9; i++) {
         switch (i%3) {
@@ -65,19 +66,19 @@ void recursive_search(const char *dir, const char *perm_string){
         	// if it's a regular file, check permissions
         	if (S_ISREG(statbuf.st_mode)) {
             		char actual_perm[10];
-
             	        //create the permission string based on the file's mode
-            	        actual_perm[0] = '-';
-            		actual_perm[1] = (statbuf.st_mode & S_IRUSR) ? 'r' : '-';
-            		actual_perm[2] = (statbuf.st_mode & S_IWUSR) ? 'w' : '-';
-            		actual_perm[3] = (statbuf.st_mode & S_IXUSR) ? 'x' : '-';
-            		actual_perm[4] = (statbuf.st_mode & S_IRGRP) ? 'r' : '-';
-            		actual_perm[5] = (statbuf.st_mode & S_IWGRP) ? 'w' : '-';
-            		actual_perm[6] = (statbuf.st_mode & S_IXGRP) ? 'x' : '-';
-            		actual_perm[7] = (statbuf.st_mode & S_IROTH) ? 'r' : '-';
-            		actual_perm[8] = (statbuf.st_mode & S_IWOTH) ? 'w' : '-';
-            		//actual_perm[9] = (statbuf.st_mode & S_IWOTH) ? 'x' : '-';
+            	        
+            		actual_perm[0] = (statbuf.st_mode & S_IRUSR) ? 'r' : '-';
+            		actual_perm[1] = (statbuf.st_mode & S_IWUSR) ? 'w' : '-';
+            		actual_perm[2] = (statbuf.st_mode & S_IXUSR) ? 'x' : '-';
+            		actual_perm[3] = (statbuf.st_mode & S_IRGRP) ? 'r' : '-';
+            		actual_perm[4] = (statbuf.st_mode & S_IWGRP) ? 'w' : '-';
+            		actual_perm[5] = (statbuf.st_mode & S_IXGRP) ? 'x' : '-';
+            		actual_perm[6] = (statbuf.st_mode & S_IROTH) ? 'r' : '-';
+            		actual_perm[7] = (statbuf.st_mode & S_IWOTH) ? 'w' : '-';
+            		actual_perm[8] = (statbuf.st_mode & S_IWOTH) ? 'x' : '-';
 			actual_perm[9] = '\0'; 
+			//printf("Checking file: %s with permissions: %s\n", path, actual_perm);
 
                 	if (strcmp(actual_perm, perm_string) == 0) {
                 		printf("%s\n", path); 
@@ -86,6 +87,8 @@ void recursive_search(const char *dir, const char *perm_string){
     	}	  
     	closedir(dirp);
 }
+
+
 
 int main(int argc, char **argv) {
 
@@ -119,11 +122,11 @@ int main(int argc, char **argv) {
     }
     
     if ((dflag == 0) || (pflag == 0)) { 
-        if (dflag == 0) {
+        if (dflag == 1 && pflag ==0) {
 	    fprintf(stderr, "Error: Required argument -p <permissions string> not found.\n");
 	    return EXIT_FAILURE;
 	}
-        if (pflag == 0) {
+        if (pflag == 1 || pflag ==0) {
   	    fprintf(stderr, "Error: Required argument -d <directory> not found.\n");
 	    return EXIT_FAILURE;
         } 
