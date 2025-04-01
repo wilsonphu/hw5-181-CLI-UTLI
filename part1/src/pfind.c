@@ -11,21 +11,23 @@
 bool str_check (const char *perm) {
     for (int i = 0; i < 9; i++) {
         switch (i%3) {
-            case '0':
+            case 0:
 		if (perm[i] != 'r' && perm[i] != '-') {
                     return false;
                 }
 		break;
-            case '1':
+            case 1:
 		if (perm[i] != 'w' && perm[i] != '-') {
                     return false;
                 }
 		break;
-            case '2':
+            case 2:
 		if (perm[i] != 'x' && perm[i] != '-') {
                     return false;
                 }
                 break;
+	    default: 
+		    return false;
 	}
     }
     return true;   
