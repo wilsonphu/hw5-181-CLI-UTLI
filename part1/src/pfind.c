@@ -38,10 +38,11 @@ void recursive_search(const char *dir, const char *perm_string){
 	struct dirent *entry;
 	struct stat statbuf;
 	char path[PATH_MAX];
-
-	if ((dirp = opendir(dir)) == NULL){
-			fprintf(stderr, "Error: Cannot open directory '%s'. %s.\n", dir, strerror(errno));
-			return;
+	
+	dirp = opendir(dir);
+	if (dirp == NULL){
+		fprintf(stderr, "Error: Cannot open directory '%s'. %s.\n", dir, strerror(errno));
+		return EXIT_FAILURE;
 	}
 
 	while ((entry = readdir(dirp)) != NULL){
