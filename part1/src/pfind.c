@@ -87,7 +87,7 @@ void recursive_search(const char *dir, const char *perm_string){
 
 int main(int argc, char **argv) {
 
-    int dflag = 0, pflag = 0, hflag = 0, c;
+    int dflag = 0, pflag = 0, c;
     opterr = 0;
 
     char *dir = NULL;
@@ -113,6 +113,16 @@ int main(int argc, char **argv) {
 	    default:
 		return EXIT_FAILURE;
         }
+    }
+    
+    if (dflag = 0 || pflag = 0) { 
+        if (dflag = 1 && pflag = 0) {
+	    fprintf(stderr, "Error: Required argument -p <permissions string> not found.\n");
+	    return EXIT_FAILURE;
+        if (dflag = 0 && pflag = 1) {
+  	    fprintf(stderr, "Error: Required argument -d <directory> not found.\n");
+	    return EXIT_FAILURE;
+        } 
     }
 
     if (perm == NULL || strlen(perm) != 9) { return EXIT_FAILURE; }
