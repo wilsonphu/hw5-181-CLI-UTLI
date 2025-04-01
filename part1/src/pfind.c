@@ -105,7 +105,7 @@ int main(int argc, char **argv) {
         }
     }
 
-    if (strlen(perm) != 9) { return EXIT_FAILURE } 
+    if (perm == NULL || strlen(perm) != 9) { return EXIT_FAILURE; } 
     recursive_search(dir,perm);
     // will check if return true or false
     // if false print to stderr and return EXIT FAILURE
