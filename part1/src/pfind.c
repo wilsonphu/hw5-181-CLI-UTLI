@@ -45,45 +45,44 @@ void recursive_search(const char *dir, const char *perm_string){
 	}
 
 	while ((entry = readdir(dirp)) != NULL){
-		if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0) 
-		continue;
+		if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0) { 
+			continue;
+		}
 
-	//build full path
-	snprintf(path, sizeof(path), "%s/%s", dir, entry->d_name);
+		//build full path
+		snprintf(path, sizeof(path), "%s/%s", dir, entry->d_name);
 
-	//retrive file info
-	if (lstat(path, &statbuf) < 0) {
-           	 fprintf(stderr, "Error: Cannot stat '%s'. %s.\n", path, strerror(errno));
-		 continue;
-	
-	if (S_ISDIR(statbuf.st_mode)) {
-        	recursive_search(path, perm_string);
-        }
+		//retrive file info
+		if (lstat(path, &statbuf) < 0) {
+           		fprintf(stderr, "Error: Cannot stat '%s'. %s.\n", path, strerror(errno));
+			continue;
+		}
+		if (S_ISDIR(statbuf.st_mode)) {
+        		recursive_search(path, perm_string);
+        	}	
 
-        // if it's a regular file, check permissions
-        else if (S_ISREG(statbuf.st_mode)) {
-            char actual_perm[10];
+        	// if it's a regular file, check permissions
+        	else if (S_ISREG(statbuf.st_mode)) {
+            		char actual_perm[10];
 
-            //create the permission string based on the file's mode
-            actual_perm[0] = '-';
-            actual_perm[1] = (statbuf.st_mode & S_IRUSR) ? 'r' : '-';
-            actual_perm[2] = (statbuf.st_mode & S_IWUSR) ? 'w' : '-';
-            actual_perm[3] = (statbuf.st_mode & S_IXUSR) ? 'x' : '-';
-            actual_perm[4] = (statbuf.st_mode & S_IRGRP) ? 'r' : '-';
-            actual_perm[5] = (statbuf.st_mode & S_IWGRP) ? 'w' : '-';
-            actual_perm[6] = (statbuf.st_mode & S_IXGRP) ? 'x' : '-';
-            actual_perm[7] = (statbuf.st_mode & S_IROTH) ? 'r' : '-';
-            actual_perm[8] = (statbuf.st_mode & S_IWOTH) ? 'w' : '-';
-            actual_perm[9] = '\0'; 
+            	        //create the permission string based on the file's mode
+            	        actual_perm[0] = '-';
+            		actual_perm[1] = (statbuf.st_mode & S_IRUSR) ? 'r' : '-';
+            		actual_perm[2] = (statbuf.st_mode & S_IWUSR) ? 'w' : '-';
+            		actual_perm[3] = (statbuf.st_mode & S_IXUSR) ? 'x' : '-';
+            		actual_perm[4] = (statbuf.st_mode & S_IRGRP) ? 'r' : '-';
+            		actual_perm[5] = (statbuf.st_mode & S_IWGRP) ? 'w' : '-';
+            		actual_perm[6] = (statbuf.st_mode & S_IXGRP) ? 'x' : '-';
+            		actual_perm[7] = (statbuf.st_mode & S_IROTH) ? 'r' : '-';
+            		actual_perm[8] = (statbuf.st_mode & S_IWOTH) ? 'w' : '-';
+            		actual_perm[9] = '\0'; 
 
-            if (strcmp(actual_perm, perm_string) == 0) {
-                printf("%s\n", path); 
-            }
-        }
-    }
-
-    
-    closedir(dirp);
+                	if (strcmp(actual_perm, perm_string) == 0) {
+                		printf("%s\n", path); 
+            		}	
+        	}	
+    	}	  
+    	closedir(dirp);
 }
 
 int main(int argc, char **argv) {
@@ -127,9 +126,8 @@ int main(int argc, char **argv) {
     // will check if return true or false
     // if false print to stderr and return EXIT FAILURE
     // else continue     
-
-   
-
+ 
 
     return EXIT_SUCCESS;
+
 }
