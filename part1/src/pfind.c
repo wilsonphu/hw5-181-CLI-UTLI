@@ -76,8 +76,8 @@ void recursive_search(const char *dir, const char *perm_string){
             		actual_perm[6] = (statbuf.st_mode & S_IXGRP) ? 'x' : '-';
             		actual_perm[7] = (statbuf.st_mode & S_IROTH) ? 'r' : '-';
             		actual_perm[8] = (statbuf.st_mode & S_IWOTH) ? 'w' : '-';
-            		actual_perm[9] = (statbuf.st_mode & S_IWOTH) ? 'x' : '-';
-			actual_perm[10] = '\0'; 
+            		//actual_perm[9] = (statbuf.st_mode & S_IWOTH) ? 'x' : '-';
+			actual_perm[9] = '\0'; 
 
                 	if (strcmp(actual_perm, perm_string) == 0) {
                 		printf("%s\n", path); 
