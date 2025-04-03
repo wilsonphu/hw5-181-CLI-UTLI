@@ -15,7 +15,7 @@ int main(int argc, char **argv) {
 	pid_t pid_sort;
 
 	if (argc != 5 || strcmp(argv[1], "-d") != 0 || strcmp(argv[3], "-p") != 0) {
-		fprintf(stderr, "Usage: %s -d <directory> -p <permissions string>\n", argv[0]);
+		fprintf(stderr, "Usage: %s -d <directory> -p <permissions string> [-h]\n", argv[0]);
 		return EXIT_FAILURE;
 	}
 
