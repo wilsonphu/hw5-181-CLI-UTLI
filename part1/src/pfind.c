@@ -115,6 +115,7 @@ int main(int argc, char **argv) {
 		return EXIT_SUCCESS;
 	    case '?':
 		fprintf(stderr, "Error: Unknown option '-%c' received.\n", optopt);	
+		return EXIT_FAILURE;
 
 	    default:
 		return EXIT_FAILURE;
