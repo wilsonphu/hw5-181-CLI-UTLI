@@ -111,7 +111,7 @@ int main(int argc, char **argv) {
 		break;
 	    case 'h':
 		fprintf(stdout,
-			"Usage: %s -d <directory> -p <permissions string> [-h]\n", argv[0]);
+			"Usage: %s -d <directory> -p <permissions string> [-h]\n",argv[0]);
 		return EXIT_SUCCESS;
 	    case '?':
 		fprintf(stderr, "Error: Unknown option '-%c' received.\n", optopt);	

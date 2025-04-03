@@ -14,6 +14,12 @@ int main(int argc, char **argv) {
 	pid_t pid_pfind;
 	pid_t pid_sort;
 
+	if (argc != 5 || strcmp(argv[1], "-d") != 0 || strcmp(argv[3], "-p") != 0) {
+		fprintf(stderr, "Usage: %s -d <directory> -p <permissions string>\n", argv[0]);
+		return EXIT_FAILURE;
+	}
+
+
 	if (pipe(fd1) < 0 || pipe(fd2) < 0){
 		perror("Error: pipe failed");
 		exit(EXIT_FAILURE);
@@ -28,8 +34,11 @@ int main(int argc, char **argv) {
 		dup2(fd1[1], STDOUT_FILENO);
 		close(fd1[1]);
 		
-		execlp("./pfind", "./pfind", NULL);
-		fprintf(stderr, "Error: pfind failed.\n");
+		//execlp("./pfind", "./pfind", NULL);
+		//fprintf(stderr, "Error: pfind failed.\n");
+		
+		execlp("./pfind", "./pfind", "-d", argv[2], "-p", argv[4], NULL);
+		perror("Error: pfind failed");
 		exit(EXIT_FAILURE);
 	
 	}
@@ -47,7 +56,8 @@ int main(int argc, char **argv) {
     		close(fd2[1]);  // Close original descriptor
 
     		execlp("sort", "sort", NULL);
-    		fprintf(stderr, "Error: sort failed.\n");
+    		//fprintf(stderr, "Error: sort failed.\n");
+		perror("Error: sort failed");
     		exit(EXIT_FAILURE);
 	}
 	// CLOSE PIPES
@@ -73,6 +83,8 @@ int main(int argc, char **argv) {
 
 	waitpid(pid_pfind, NULL, 0);
 	waitpid(pid_sort, NULL, 0);
-	if (count > 0) { printf("Total matches: %d\n", count); }
+	if (count > 0) { 
+		printf("Total matches: %d\n", count);
+	}	
 	return EXIT_SUCCESS;
 } 
